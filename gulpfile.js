@@ -33,6 +33,7 @@ let { src, dest } = require("gulp"),
   fileinclude = require("gulp-file-include"),
   del = require("del"),
   scss = require("gulp-sass"),
+  sourcemaps = require("gulp-sourcemaps"),
   autoprefixer = require("gulp-autoprefixer"),
   group_media = require("gulp-group-css-media-queries"),
   clean_css = require("gulp-clean-css"),
@@ -64,6 +65,7 @@ function html() {
 
 function css() {
   return src(path.dev.css)
+    .pipe(sourcemaps.init())
     .pipe(
       scss({
         outputStyle: "expanded",
@@ -83,6 +85,7 @@ function css() {
         extname: ".min.css",
       })
     )
+    .pipe(sourcemaps.write('./'))
     .pipe(dest(path.build.css))
     .pipe(browsersync.stream());
 }
